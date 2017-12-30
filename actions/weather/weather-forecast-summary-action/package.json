@@ -1,0 +1,16 @@
+{
+  "name": "weather-forecast-summary-action",
+  "version": "1.0.0",
+  "description": "Query wunderground and produce a forecast of the weather for the given coordinates",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eduardo Garza",
+  "license": "MIT",
+  "dependencies": {
+    "ramda": "^0.25.0",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5"
+  }
+}
