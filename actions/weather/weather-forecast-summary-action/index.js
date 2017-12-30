@@ -49,3 +49,5 @@ function main(params) {
     .then(JSON.stringify)
     .catch(objOf('error'));
 }
+
+module.exports = main;
