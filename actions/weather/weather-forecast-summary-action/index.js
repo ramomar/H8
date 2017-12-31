@@ -50,4 +50,4 @@ function main(params) {
     .catch(objOf('error'));
 }
 
-module.exports = main;
+module.exports.main = main;
