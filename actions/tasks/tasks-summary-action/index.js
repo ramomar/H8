@@ -28,7 +28,7 @@ function parseProjects(projectsResponse) {
   return makeProjectNameIdMappings(projectsResponse);
 }
 
-function parseTasks(projects, tasksResponse, defaultTimezone) {
+function parseTasks(projects, tasksResponse, timezone) {
   const now = LocalDate.now();
 
   const extractDate = pipe(path(['due', 'date']), LocalDate.parse);
@@ -37,14 +37,14 @@ function parseTasks(projects, tasksResponse, defaultTimezone) {
     const extractDateWithDefaultTime = pipe(
       path(['due', 'date']),
       LocalDate.parse,
-      ld => ZonedDateTime.of(ld, LocalTime.MAX, ZoneId.of(defaultTimezone))
+      ld => ZonedDateTime.of(ld, LocalTime.MAX, ZoneId.of(timezone))
     );
 
     const extractDateTime = pipe(
       path(['due', 'datetime']),
       dt => ZonedDateTime
         .parse(dt, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssVV"))
-        .withZoneSameInstant(ZoneId.of(defaultTimezone))
+        .withZoneSameInstant(ZoneId.of(timezone))
     )
 
     return ifElse(
@@ -94,12 +94,11 @@ function parseTasks(projects, tasksResponse, defaultTimezone) {
 function main(params) {
   const todoist = todoistClient(params.TODO_HOST, params.TODO_TOKEN)
   const combineResponses = ([projects, tasks]) =>
-    parseTasks(parseProjects(projects), tasks, params.defaultTimezone)
+    parseTasks(parseProjects(projects), tasks, params.TIMEZONE)
 
   return Promise.all([todoist('projects'), todoist('tasks')])
     .then(combineResponses)
-    .then(JSON.stringify)
-    .catch(objOf('error'));
+    .catch(always({error: {error: 500}}));
 }
 
 module.exports.main = main;

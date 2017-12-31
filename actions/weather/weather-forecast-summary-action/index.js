@@ -1,8 +1,6 @@
 const { URL } = require('url');
 const request = require('request-promise-native');
-const { path, prop, pipe, take, map, zipObj, objOf } = require('ramda');
-
-const HOST = 'https://api.wunderground.com/api/';
+const { path, prop, pipe, take, map, zipObj, objOf, always } = require('ramda');
 
 function forecastClient(host, token) {
   return (coordinates, lang) => {
@@ -15,11 +13,11 @@ function forecastClient(host, token) {
     ].join('/');
 
     const options = {
-      uri: new URL(path, HOST).href,
+      uri: new URL(path, host).href,
       json: true
     };
 
-    return rp(options);
+    return request(options);
   }
 }
 
@@ -36,7 +34,7 @@ function parseForecast(forecastResult) {
   );
 
   return zipObj(
-    ['startOfDaySummary', 'endOfDaySummary'],
+    ['startOfDay', 'endOfDay'],
     extractForecasts(forecastResult)
   );
 }
@@ -46,8 +44,7 @@ function main(params) {
 
   return forecast(params.COORDINATES, params.LANG)
     .then(parseForecast)
-    .then(JSON.stringify)
-    .catch(objOf('error'));
+    .catch(always({error: {error: 500}}));
 }
 
 module.exports.main = main;
