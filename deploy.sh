@@ -28,21 +28,23 @@ function install() {
   echo "Installing GET tasks-summary action"
   cd actions/tasks/tasks-summary-action
   npm install
+  rm *.zip
   zip -rq action.zip *
   wsk action create gauss/tasks-summary \
     --kind nodejs:8 action.zip \
     --web true
-  wsk api create -n "Gauss API" /v1 /tasks-summary GET gauss/tasks-summary
+  wsk api create -n "Gauss API" /v1 /tasks GET gauss/tasks-summary
   cd $ROOT
 
   echo "Installing GET weather-forecast-summary action"
   cd actions/weather/weather-forecast-summary-action
   npm install
+  rm *.zip
   zip -rq action.zip *
   wsk action create gauss/forecast-summary \
     --kind nodejs:8 action.zip \
     --web true
-  wsk api create /v1 /forecast-summary GET gauss/forecast-summary
+  wsk api create /v1 /forecast GET gauss/forecast-summary
   cd $ROOT
 
   echo -e "Install Complete"
