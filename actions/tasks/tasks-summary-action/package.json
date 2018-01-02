@@ -12,6 +12,6 @@
     "js-joda": "^1.6.2",
     "ramda": "^0.25.0",
     "request": "^2.83.0",
-    "request-promise-native": "^1.0.5"
+    "request-promise": "^4.2.2"
   }
 }

@@ -1,8 +1,8 @@
 const { URL } = require('url');
-const request = require('request-promise-native');
+const request = require('request-promise');
 const {
         map, filter, both, either, prop, props, indexBy, pipe, ifElse, sort,
-        path, groupBy, has, always, omit, cond, objOf
+        path, groupBy, has, always, omit, cond, tap
       } = require('ramda');
 const {
         LocalDate, LocalTime, ZonedDateTime, DateTimeFormatter, ZoneId
@@ -91,14 +91,24 @@ function parseTasks(projects, tasksResponse, timezone) {
   return makeTasksSummary(tasksResponse);
 }
 
+const handleError = pipe(
+  console.error,
+  always({error: 500})
+);
+
+function logResponses(responses) {
+  responses.forEach(r => console.info(r));
+}
+
 function main(params) {
   const todoist = todoistClient(params.TODO_HOST, params.TODO_TOKEN)
   const combineResponses = ([projects, tasks]) =>
     parseTasks(parseProjects(projects), tasks, params.TIMEZONE)
 
   return Promise.all([todoist('projects'), todoist('tasks')])
+    .then(tap(logResponses))
     .then(combineResponses)
-    .catch(always({error: {error: 500}}));
+    .catch(handleError);
 }
 
 module.exports.main = main;
