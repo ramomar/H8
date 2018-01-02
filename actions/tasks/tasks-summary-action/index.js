@@ -1,8 +1,8 @@
 const { URL } = require('url');
 const request = require('request-promise');
 const {
-        map, filter, both, either, prop, props, indexBy, pipe, ifElse, sort,
-        path, groupBy, has, always, omit, cond, tap
+        map, filter, both, either, prop, props, indexBy, pipe, ifElse, sortWith,
+        path, groupBy, has, always, omit, cond, tap, ascend
       } = require('ramda');
 const {
         LocalDate, LocalTime, ZonedDateTime, DateTimeFormatter, ZoneId
@@ -29,7 +29,8 @@ function parseProjects(projectsResponse) {
 }
 
 function parseTasks(projects, tasksResponse, timezone) {
-  const now = LocalDate.now();
+  const zone = ZoneId.of(timezone);
+  const now = LocalDate.now(zone);
 
   const extractDate = pipe(path(['due', 'date']), LocalDate.parse);
 
@@ -37,14 +38,14 @@ function parseTasks(projects, tasksResponse, timezone) {
     const extractDateWithDefaultTime = pipe(
       path(['due', 'date']),
       LocalDate.parse,
-      ld => ZonedDateTime.of(ld, LocalTime.MAX, ZoneId.of(timezone))
+      ld => ZonedDateTime.of(ld, LocalTime.MAX, zone)
     );
 
     const extractDateTime = pipe(
       path(['due', 'datetime']),
       dt => ZonedDateTime
         .parse(dt, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssVV"))
-        .withZoneSameInstant(ZoneId.of(timezone))
+        .withZoneSameInstant(zone)
     )
 
     return ifElse(
@@ -56,6 +57,8 @@ function parseTasks(projects, tasksResponse, timezone) {
 
   const dueDateOrdering = (t1, t2) =>
     extractTentativeDueDate(t1).compareTo(extractTentativeDueDate(t2));
+
+  const projectNameOrdering = ascend(prop('project'));
 
   const isDueForTodayOrOverdue = pipe(
     extractDate,
@@ -82,10 +85,9 @@ function parseTasks(projects, tasksResponse, timezone) {
 
   const makeTasksSummary = pipe(
     filter(both(has('due'), isDueForTodayOrOverdue)),
-    sort(dueDateOrdering),
+    map(makeTaskSummary),
     groupBy(dueOrOverdue),
-    map(map(makeTaskSummary)),
-    map(groupBy(prop('project')))
+    map(sortWith([dueDateOrdering, projectNameOrdering]))
   );
 
   return makeTasksSummary(tasksResponse);
