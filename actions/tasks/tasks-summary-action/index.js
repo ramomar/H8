@@ -93,7 +93,7 @@ function parseTasks(projects, tasksResponse, timezone) {
   return makeTasksSummary(tasksResponse);
 }
 
-const handleError = pipe(
+const handleErrors = pipe(
   console.error,
   always({error: 500})
 );
@@ -110,7 +110,7 @@ function main(params) {
   return Promise.all([todoist('projects'), todoist('tasks')])
     .then(tap(logResponses))
     .then(combineResponses)
-    .catch(handleError);
+    .catch(handleErrors);
 }
 
 module.exports.main = main;

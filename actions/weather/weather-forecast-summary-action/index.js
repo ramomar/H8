@@ -39,7 +39,7 @@ function parseForecast(forecastResult) {
   );
 }
 
-const handleError = pipe(
+const handleErrors = pipe(
   console.error,
   always({error: 500})
 );
@@ -50,7 +50,7 @@ function main(params) {
   return forecast(params.COORDINATES, params.LANG)
     .then(tap(console.info))
     .then(parseForecast)
-    .catch(handleError);
+    .catch(handleErrors);
 }
 
 module.exports.main = main;
