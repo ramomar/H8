@@ -113,4 +113,9 @@ function main(params) {
     .catch(handleErrors);
 }
 
-module.exports.main = main;
+if (require.main === module) {
+  const params = require('./params.json');
+  main(params).then(console.log);
+} else {
+  module.exports.main = main;
+}

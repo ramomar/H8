@@ -1,10 +1,11 @@
 {
-  "name": "tasks-summary-action",
+  "name": "tasks-summary",
   "version": "1.0.0",
   "description": "Query Todoist and produce a due tasks summary",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "invoke": "node index.js",
+    "deploy": "rm *.zip; zip -rq action.zip *; bx wsk action update gauss/tasks-summary action.zip --kind nodejs:8"
   },
   "author": "Eduardo Garza",
   "license": "MIT",
