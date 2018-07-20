@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "invoke": "node index.js",
-    "deploy": "rm *.zip; zip -rq action.zip *; bx wsk action update gauss/tasks-summary action.zip --kind nodejs:8"
+    "deploy": "rm *.zip; zip -rq action.zip *; bx wsk action update gauss/weather-forecast-summary action.zip --kind nodejs:8"
   },
   "author": "Eduardo Garza",
   "license": "MIT",
