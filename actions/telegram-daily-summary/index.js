@@ -13,12 +13,13 @@ function telegramClient(host, token, chatId) {
     const body = {
       'chat_id': chatId,
       'text': text,
-      'parse_mode': 'Markdown'
+      'parse_mode': 'Markdown',
+      'disable_web_page_preview': true
     };
 
     const options = {
       method: 'POST',
-      uri: `${host}${path}`, // URL module won't create correct uri
+      uri: `${host}${path}`, // URL module won't create correct uri.
       json: true,
       body
     };
@@ -48,22 +49,22 @@ function formatTasksSummary(tasksSummary) {
   ];
 
   function taskFormat(task) {
-    const date = LocalDate.parse(path(['due', 'date'])(task));
+    const date = LocalDate.parse(path(['due', 'date'], task));
     const day = date.dayOfMonth();
     const month = date.monthValue();
-    const content = prop('content')(task);
+    const content = prop('content', task);
+    const url = prop('url', task);
 
-    return `_${content} ${months[month-1]} ${day}_`;
+    return `[${content}](${url}) _${months[month-1]} ${day}_`;
   }
 
-  const makeFormattedTasks = pipe(
-    prop('due'),
-    map(taskFormat)
-  );
+  const makeFormattedTasks = map(taskFormat);
 
   return [].concat(
+    `*Tareas pasadas* ❎`,
+    makeFormattedTasks(prop('overdue', tasksSummary)),
     `*Tareas para hoy* ✅`,
-    makeFormattedTasks(tasksSummary)
+    makeFormattedTasks(prop('due', tasksSummary))
   ).join('\n');
 }
 
@@ -72,9 +73,9 @@ function formatWeatherSummary(weatherSummary) {
   const weatherEndOfDay = path(['endOfDay', 'description']);
 
   return [
-    '*Inicio del día* 🌅',
+    '*Clima al inicio del día* 🌅',
     `_${weatherStartOfDay(weatherSummary)}_`,
-    '*Fin del día* 🌇',
+    '*Clima al fin del día* 🌇',
     `_${weatherEndOfDay(weatherSummary)}_`
   ].join('\n');
 }
@@ -128,5 +129,9 @@ function main(params) {
     .catch(handleErrors);
 }
 
-module.exports.main = main;
-
+if (require.main === module) {
+  const params = require('./params.json');
+  main(params).then(console.log);
+} else {
+  module.exports.main = main;
+}
