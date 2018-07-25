@@ -1,11 +1,11 @@
 {
   "name": "telegram-daily-summary",
   "version": "1.0.0",
-  "description": "Send a daily summary to telegram chat",
+  "description": "Send a daily summary to a telegram chat",
   "main": "index.js",
   "scripts": {
     "invoke": "node index.js",
-    "deploy": "rm *.zip; zip -rq action.zip *; bx wsk action update gauss/telegram-daily-summary action.zip --kind nodejs:8",
+    "deploy": "rm *.zip; zip -rq action.zip *; bx wsk action update H8/telegram-daily-summary action.zip --kind nodejs:8",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Eduardo Garza",

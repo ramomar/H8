@@ -102,13 +102,13 @@ function main(params) {
   const ow = openwhisk({ ignore_certs: true });
   
   const tasksAction = {
-    actionName: 'gauss/tasks-summary',
+    actionName: 'H8/tasks-summary',
     result: true,
     blocking: true
   };
 
   const weatherAction = {
-    actionName: 'gauss/weather-forecast-summary',
+    actionName: 'H8/weather-forecast-summary',
     result: true,
     blocking: true
   };
