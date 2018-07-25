@@ -9,7 +9,7 @@ function forecastClient(host, token) {
       'forecast',
       `lang:${lang}`,
       'q',
-      `${coordinates}.json`,
+      `${coordinates}.json`
     ].join('/');
 
     const options = {
@@ -41,7 +41,7 @@ function parseForecast(forecastResult) {
 
 const handleErrors = pipe(
   console.error,
-  always({error: 500})
+  always({ error: 500 })
 );
 
 function main(params) {

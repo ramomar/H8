@@ -1,7 +1,7 @@
 const { URL } = require('url');
 const request = require('request-promise');
 const {
-        map, filter, both, either, prop, props, indexBy, pipe, ifElse, sortWith,
+        map, filter, both, either, prop, indexBy, pipe, ifElse, sortWith,
         path, groupBy, has, always, omit, cond, tap, ascend
       } = require('ramda');
 const {
@@ -46,7 +46,7 @@ function parseTasks(projects, tasksResponse, timezone) {
       dt => ZonedDateTime
         .parse(dt, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssVV"))
         .withZoneSameInstant(zone)
-    )
+    );
 
     return ifElse(
       pipe(prop('due'), has('datetime')),
@@ -95,7 +95,7 @@ function parseTasks(projects, tasksResponse, timezone) {
 
 const handleErrors = pipe(
   console.error,
-  always({error: 500})
+  always({ error: 500 })
 );
 
 function logResponses(responses) {
@@ -103,9 +103,9 @@ function logResponses(responses) {
 }
 
 function main(params) {
-  const todoist = todoistClient(params.TODOIST_HOST, params.TODOIST_TOKEN)
+  const todoist = todoistClient(params.TODOIST_HOST, params.TODOIST_TOKEN);
   const combineResponses = ([projects, tasks]) =>
-    parseTasks(parseProjects(projects), tasks, params.TIMEZONE)
+    parseTasks(parseProjects(projects), tasks, params.TIMEZONE);
 
   return Promise.all([todoist('projects'), todoist('tasks')])
     .then(tap(logResponses))
