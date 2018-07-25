@@ -2,7 +2,7 @@
 
 H8 is my personal assistant.
 
-Currently H8 is implemented as a set of cloud functions written for the OpenWhisk platform.
+Currently, H8 is implemented as a set of cloud functions written for the OpenWhisk platform.
 
 ### List of functions
 
