@@ -1,5 +1,5 @@
 {
-  "TODO_HOST": "",
-  "TODO_TOKEN": "",
+  "TODOIST_HOST": "",
+  "TODOIST_TOKEN": "",
   "TIMEZONE": ""
 }

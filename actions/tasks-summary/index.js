@@ -103,7 +103,7 @@ function logResponses(responses) {
 }
 
 function main(params) {
-  const todoist = todoistClient(params.TODO_HOST, params.TODO_TOKEN)
+  const todoist = todoistClient(params.TODOIST_HOST, params.TODOIST_TOKEN)
   const combineResponses = ([projects, tasks]) =>
     parseTasks(parseProjects(projects), tasks, params.TIMEZONE)
 
