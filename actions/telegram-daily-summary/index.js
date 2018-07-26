@@ -69,14 +69,14 @@ function formatTasksSummary(tasksSummary) {
 }
 
 function formatWeatherSummary(weatherSummary) {
-  const weatherStartOfDay = path(['startOfDay', 'description']);
-  const weatherEndOfDay = path(['endOfDay', 'description']);
+  const startOfDayWeather = path(['startOfDay', 'description']);
+  const endOfDayWeather = path(['endOfDay', 'description']);
 
   return [
     '*Clima al inicio del día* 🌅',
-    `_${weatherStartOfDay(weatherSummary)}_`,
+    `_${startOfDayWeather(weatherSummary)}_`,
     '*Clima al fin del día* 🌇',
-    `_${weatherEndOfDay(weatherSummary)}_`
+    `_${endOfDayWeather(weatherSummary)}_`
   ].join('\n');
 }
 
