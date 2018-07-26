@@ -63,13 +63,13 @@ function uninstall() {
 
   echo "Removing actions..."
   bx wsk action delete H8/tasks-summary
-  bx wsk action delete H8/forecast-summary
+  bx wsk action delete H8/weather-forecast-summary
   bx wsk action delete H8/telegram-daily-summary
 
   echo "Removing package..."
   bx wsk package delete H8
 
-  echo -e "Uninstall Complete"
+  echo -e "Uninstall complete"
 }
 
 function showenv() {
