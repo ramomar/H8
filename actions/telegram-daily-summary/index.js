@@ -75,7 +75,7 @@ function formatWeatherSummary(weatherSummary) {
   return [
     '*Clima al inicio del día* 🌅',
     `_${startOfDayWeather(weatherSummary)}_`,
-    '*Clima al fin del día* 🌇',
+    '*Clima al final del día* 🌇',
     `_${endOfDayWeather(weatherSummary)}_`
   ].join('\n');
 }
