@@ -1,7 +1,9 @@
 const request = require('request-promise');
 const openwhisk = require('openwhisk');
 const { LocalDate } = require('js-joda');
-const { tap, pipe, always, prop, path, map } = require('ramda');
+const { tap, pipe, always, prop,
+        path, map, ifElse, isEmpty
+      } = require('ramda');
 
 function telegramClient(host, token, chatId) {
   function sendMessage(text) {
@@ -58,13 +60,22 @@ function formatTasksSummary(tasksSummary) {
     return `[${content}](${url}) _${months[month-1]} ${day}_`;
   }
 
-  const makeFormattedTasks = map(taskFormat);
+  function formatTasks(tasks, noTasksMessage) {
+    return ifElse(
+      isEmpty,
+      always(noTasksMessage),
+      map(taskFormat)
+    )(tasks);
+  }
+
+  const overdueTasks = prop('overdue', tasksSummary);
+  const dueTasks = prop('due', tasksSummary);
 
   return [].concat(
     `*Tareas pasadas* ❎`,
-    makeFormattedTasks(prop('overdue', tasksSummary)),
+    formatTasks(overdueTasks, '_No hay tareas atrasadas. ¡Vas al corriente!_'),
     `*Tareas para hoy* ✅`,
-    makeFormattedTasks(prop('due', tasksSummary))
+    formatTasks(dueTasks, '_No hay tareas para hoy. ¡Tomate un descanso!_')
   ).join('\n');
 }
 
