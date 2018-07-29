@@ -2,7 +2,7 @@ const { URL } = require('url');
 const request = require('request-promise');
 const {
         map, filter, both, either, prop, indexBy, pipe, ifElse, sortWith,
-        path, groupBy, has, always, omit, cond, tap, ascend
+        path, groupBy, has, always, omit, cond, tap, ascend, merge
       } = require('ramda');
 const {
         LocalDate, LocalTime, ZonedDateTime, DateTimeFormatter, ZoneId
@@ -87,7 +87,8 @@ function parseTasks(projects, tasksResponse, timezone) {
     filter(both(has('due'), isDueForTodayOrOverdue)),
     map(makeTaskSummary),
     groupBy(dueOrOverdue),
-    map(sortWith([dueDateOrdering, projectNameOrdering]))
+    map(sortWith([dueDateOrdering, projectNameOrdering])),
+    merge({ due: [], overdue: [] })
   );
 
   return makeTasksSummary(tasksResponse);
