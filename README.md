@@ -4,7 +4,7 @@ H8 is my personal assistant.
 
 Currently, H8 is implemented as a set of cloud functions written for the OpenWhisk platform.
 
-### List of functions
+## List of functions
 
 | Name                      | Description  |
 |---------------------------|--------------------|
@@ -13,14 +13,14 @@ Currently, H8 is implemented as a set of cloud functions written for the OpenWhi
 | Telegram Daily Summary    | A Telegram bot that uses the previous actions to produce a daily summary. |
 
 
-### Credentials
+## Credentials
 Set your own credentials in `template.env` and then rename it to `prod.env`
 
-### Deploying
+## Deploying
 
 Run `./deploy.sh`
 
 
-### H8?
+## H8?
 
 The name H8 refers to a microcontroller, and also, it is a reference to a Muse song called Space Dementia 🚀
