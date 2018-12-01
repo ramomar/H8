@@ -6,6 +6,8 @@ function main(params) {
     bodyHtml64,
     from,
     date,
+    MONGO_HOST,
+    MONGO_PORT,
     MONGO_USER,
     MONGO_PASSWORD,
     MONGO_DATABASE,
@@ -29,7 +31,7 @@ function main(params) {
     category: from
   };
 
-  const URL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@ds131963.mlab.com:31963/${MONGO_DATABASE}`;
+  const URL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}`;
 
   const client = new MongoClient(URL);
 

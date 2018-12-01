@@ -30,7 +30,9 @@ function install() {
     --param "MONGO_USER" $MONGO_USER \
     --param "MONGO_PASSWORD" $MONGO_PASSWORD \
     --param "MONGO_DATABASE" $MONGO_DATABASE \
-    --param "MONGO_COLLECTION" $MONGO_COLLECTION
+    --param "MONGO_COLLECTION" $MONGO_COLLECTION \
+    --param "MONGO_HOST" $MONGO_HOST \
+    --param "MONGO_PORT" $MONGO_PORT
 
   echo "Installing tasks-summary action"
   cd actions/tasks-summary
@@ -111,6 +113,8 @@ function showenv() {
   echo -e "MONGO_PASSWORD=$MONGO_PASSWORD"
   echo -e "MONGO_DATABASE=$MONGO_DATABASE"
   echo -e "MONGO_COLLECTION=$MONGO_COLLECTION"
+  echo -e "MONGO_HOST=$MONGO_HOST"
+  echo -e "MONGO_PORT=$MONGO_PORT"
 }
 
 case "$1" in
