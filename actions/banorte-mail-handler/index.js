@@ -5,7 +5,11 @@ function main(params) {
   const {
     bodyHtml64,
     from,
-    date
+    date,
+    MONGO_USER,
+    MONGO_PASSWORD,
+    MONGO_DATABASE,
+    MONGO_COLLECTION
   } = params;
 
   const html = Buffer.from(bodyHtml64, 'base64').toString();
