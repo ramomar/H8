@@ -26,7 +26,11 @@ function install() {
     --param "WEATHER_TOKEN" $WEATHER_TOKEN \
     --param "TELEGRAM_HOST" $TELEGRAM_HOST \
     --param "TELEGRAM_TOKEN" $TELEGRAM_TOKEN \
-    --param "TELEGRAM_CHAT_ID" $TELEGRAM_CHAT_ID
+    --param "TELEGRAM_CHAT_ID" $TELEGRAM_CHAT_ID \
+    --param "MONGO_USER" $MONGO_USER \
+    --param "MONGO_PASSWORD" $MONGO_PASSWORD \
+    --param "MONGO_DATABASE" $MONGO_DATABASE \
+    --param "MONGO_COLLECTION" $MONGO_COLLECTION
 
   echo "Installing tasks-summary action"
   cd actions/tasks-summary
@@ -64,6 +68,15 @@ function install() {
     --kind nodejs:8 action.zip
   cd $ROOT
 
+  echo "Installing banorte-mail-handler action"
+  cd actions/banorte-mail-handler
+  npm install
+  rm *.zip
+  zip -rq action.zip *
+  bx wsk action create H8/banorte-mail-handler \
+    --kind nodejs:8 action.zip
+    cd $ROOT
+
   echo -e "Install Complete"
 }
 
@@ -75,6 +88,7 @@ function uninstall() {
   bx wsk action delete H8/weather-forecast-summary
   bx wsk action delete H8/telegram-daily-summary
   bx wsk action delete H8/banorte-notifications-zapier
+  bx wsk action delete H8/banorte-mail-handler
 
   echo "Removing package..."
   bx wsk package delete H8
@@ -93,6 +107,10 @@ function showenv() {
   echo -e "TELEGRAM_HOST"=$TELEGRAM_HOST
   echo -e "TELEGRAM_TOKEN"=$TELEGRAM_TOKEN
   echo -e "TELEGRAM_CHAT_ID"=$TELEGRAM_CHAT_ID
+  echo -e "MONGO_USER=$MONGO_USER"
+  echo -e "MONGO_PASSWORD=$MONGO_PASSWORD"
+  echo -e "MONGO_DATABASE=$MONGO_DATABASE"
+  echo -e "MONGO_COLLECTION=$MONGO_COLLECTION"
 }
 
 case "$1" in

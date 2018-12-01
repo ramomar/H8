@@ -1,0 +1,24 @@
+{
+  "name": "banorte-mail-handler",
+  "version": "1.0.0",
+  "description": "Extract relevant expense/income data from a operation notification email from Banorte and save to Mongo",
+  "main": "index.js",
+  "scripts": {
+    "invoke": "node index.js",
+    "deploy": "rm *.zip; zip -rq action.zip *; bx wsk action update H8/banorte-mail-handler action.zip --kind nodejs:8",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "banorte",
+    "mail",
+    "purchase",
+    "expense"
+  ],
+  "author": "Eduardo Garza",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "moment": "^2.22.2",
+    "mongodb": "^3.1.10"
+  }
+}
