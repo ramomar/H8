@@ -1,0 +1,16 @@
+{
+  "name": "banorte-notifications-zapier",
+  "version": "1.0.0",
+  "description": "Webhook for Zapier triggered when there is a new purchase notification email from banorte",
+  "main": "index.js",
+  "scripts": {
+    "invoke": "node index.js",
+    "deploy": "rm *.zip; zip -rq action.zip *; bx wsk action update H8/banorte-notifications-zapier action.zip --kind nodejs:8",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eduardo Garza",
+  "license": "MIT",
+  "dependencies": {
+    "rambda": "^1.2.6"
+  }
+}

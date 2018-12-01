@@ -55,6 +55,15 @@ function install() {
     --kind nodejs:8 action.zip
   cd $ROOT
 
+  echo "Installing banorte-notifications-zapier action"
+  cd actions/banorte-notifications-zapier
+  npm install
+  rm *.zip
+  zip -rq action.zip *
+  bx wsk action create H8/banorte-notifications-zapier \
+    --kind nodejs:8 action.zip
+  cd $ROOT
+
   echo -e "Install Complete"
 }
 
@@ -65,6 +74,7 @@ function uninstall() {
   bx wsk action delete H8/tasks-summary
   bx wsk action delete H8/weather-forecast-summary
   bx wsk action delete H8/telegram-daily-summary
+  bx wsk action delete H8/banorte-notifications-zapier
 
   echo "Removing package..."
   bx wsk package delete H8
